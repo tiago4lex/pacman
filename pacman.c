@@ -9,8 +9,7 @@ int columns;
 
 void clearMap()
 {
-    int i;
-    for (i = 0; i < rows; i++)
+    for (int i = 0; i < rows; i++)
     {
         free(map[i]);
     }
@@ -56,15 +55,76 @@ void readMap()
     fclose(f);
 }
 
-int main()
+void printMap()
 {
-    readMap();
-
     // Prints the map to the console
     for (int i = 0; i < rows; i++)
     {
         printf("%s\n", map[i]);
     }
+}
+
+int ended()
+{
+    return 0;
+}
+
+void moves(char direction)
+{
+    int x;
+    int y;
+
+    // Finds hero position
+    int found = 0;
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            if (map[i][j] == '@')
+            {
+                x = i;
+                y = j;
+                found = 1;
+                break;
+            }
+        }
+    }
+
+    if (!found)return;
+
+    switch (direction)
+    {
+    case 'a':
+        map[x][y - 1] = '@';
+        break;
+    case 'w':
+        map[x - 1][y] = '@';
+        break;
+    case 's':
+        map[x + 1][y] = '@';
+        break;
+    case 'd':
+        map[x][y + 1] = '@';
+        break;
+    }
+
+    map[x][y] = '.';
+}
+
+int main()
+{
+    readMap();
+
+    do
+    {
+        printMap();
+
+        char commands;
+        scanf(" %c", &commands);
+        moves(commands);
+
+    } while (!ended());
 
     clearMap();
 
