@@ -1,65 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pacman.h"
+#include "map.h"
 
 MAP m;
-
-void clearMap()
-{
-    for (int i = 0; i < m.rows; i++)
-    {
-        free(m.gridCells[i]);
-    }
-    free(m.gridCells);
-}
-
-void allocsMap()
-{
-    // Allocates memory for the map (array of strings)
-    m.gridCells = malloc(sizeof(char *) * m.rows);
-    for (int i = 0; i < m.rows; i++)
-    {
-        // +1 to account for the null terminator '\0'
-        m.gridCells[i] = malloc(sizeof(char) * (m.columns + 1));
-    }
-}
-
-void readMap()
-{
-    // Opens the map.txt file in read mode
-    FILE *f;
-    f = fopen("map.txt", "r");
-
-    // If the file doesn't exist, print an error and exit
-    if (f == NULL)
-    {
-        printf("The map.txt file was not found\n");
-        exit(1);
-    }
-
-    // Reads the first line of the file to get the map's dimensions
-    fscanf(f, "%d %d", &(m.rows), &(m.columns));
-
-    allocsMap();
-
-    // Reads each line of the map from the file
-    for (int i = 0; i < m.rows; i++)
-    {
-        fscanf(f, "%s", m.gridCells[i]);
-    }
-
-    // Closes the file
-    fclose(f);
-}
-
-void printMap()
-{
-    // Prints the map to the console
-    for (int i = 0; i < m.rows; i++)
-    {
-        printf("%s\n", m.gridCells[i]);
-    }
-}
 
 int ended()
 {
@@ -112,11 +56,11 @@ void moves(char direction)
 
 int main()
 {
-    readMap();
+    readMap(&m);
 
     do
     {
-        printMap();
+        printMap(&m);
 
         char commands;
         scanf(" %c", &commands);
@@ -124,7 +68,7 @@ int main()
 
     } while (!ended());
 
-    clearMap();
+    clearMap(&m);
 
     return 0;
 }
