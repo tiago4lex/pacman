@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "pacman.h"
 
-struct map m;
+MAP m;
 
 void clearMap()
 {
