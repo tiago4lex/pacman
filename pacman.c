@@ -13,33 +13,42 @@ int ended()
 
 void moves(char direction)
 {
-    if(direction != 'a' &&
-       direction != 'w' &&
-       direction != 's' &&
-       direction != 'd')
+    if (direction != 'a' &&
+        direction != 'w' &&
+        direction != 's' &&
+        direction != 'd')
         return;
-        
-    m.gridCells[hero.x][hero.y] = '.';
+
+    int nextX = hero.x;
+    int nextY = hero.y;
 
     switch (direction)
     {
     case 'a':
-        m.gridCells[hero.x][hero.y - 1] = '@';
-        hero.y--;
+        nextY--;
         break;
     case 'w':
-        m.gridCells[hero.x - 1][hero.y] = '@';
-        hero.x--;
+        nextX--;
         break;
     case 's':
-        m.gridCells[hero.x + 1][hero.y] = '@';
-        hero.x++;
+        nextX++;
         break;
     case 'd':
-        m.gridCells[hero.x][hero.y + 1] = '@';
-        hero.y++;
+        nextY++;
         break;
     }
+
+    if (nextX >= m.rows)
+        return;
+    if (nextY >= m.columns)
+        return;
+    if (m.gridCells[nextX][nextY] != '.')
+        return;
+
+    m.gridCells[nextX][nextY] = '@';
+    m.gridCells[hero.x][hero.y] = '.';
+    hero.x = nextX;
+    hero.y = nextY;
 }
 
 int main()
