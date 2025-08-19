@@ -13,10 +13,15 @@ void readMap(MAP *m);
 void allocsMap(MAP *m);
 void printMap(MAP *m);
 
-struct position {
+struct position
+{
     int x;
     int y;
 };
 
 typedef struct position POSITION;
-void findMap(MAP* m, POSITION* p, char c);
+void findMap(MAP *m, POSITION *p, char c);
+
+int isValid(MAP *m, int x, int y);
+int isEmpty(MAP *m, int x, int y);
+void navigateMap(MAP *m, int originX, int originY, int destX, int destY);

@@ -11,12 +11,17 @@ int ended()
     return 0;
 }
 
+int isValidDirection(char direction)
+{
+    return direction != 'a' ||
+           direction != 'w' ||
+           direction != 's' ||
+           direction != 'd';
+}
+
 void moves(char direction)
 {
-    if (direction != 'a' &&
-        direction != 'w' &&
-        direction != 's' &&
-        direction != 'd')
+    if (!isValidDirection(direction))
         return;
 
     int nextX = hero.x;
@@ -37,16 +42,13 @@ void moves(char direction)
         nextY++;
         break;
     }
-
-    if (nextX >= m.rows)
-        return;
-    if (nextY >= m.columns)
-        return;
-    if (m.gridCells[nextX][nextY] != '.')
+    if(!isValid(&m, nextX, nextY))
         return;
 
-    m.gridCells[nextX][nextY] = '@';
-    m.gridCells[hero.x][hero.y] = '.';
+    if(!isEmpty(&m, nextX, nextY))
+        return;
+
+    navigateMap(&m, hero.x, hero.y, nextX, nextY);
     hero.x = nextX;
     hero.y = nextY;
 }
