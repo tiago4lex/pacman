@@ -13,6 +13,12 @@ int ended()
 
 void moves(char direction)
 {
+    if(direction != 'a' &&
+       direction != 'w' &&
+       direction != 's' &&
+       direction != 'd')
+        return;
+        
     m.gridCells[hero.x][hero.y] = '.';
 
     switch (direction)
