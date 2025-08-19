@@ -4,6 +4,7 @@
 #include "map.h"
 
 MAP m;
+POSITION hero;
 
 int ended()
 {
@@ -12,51 +13,33 @@ int ended()
 
 void moves(char direction)
 {
-    int x;
-    int y;
-
-    // Finds hero position
-    int found = 0;
-
-    for (int i = 0; i < m.rows; i++)
-    {
-        for (int j = 0; j < m.columns; j++)
-        {
-            if (m.gridCells[i][j] == '@')
-            {
-                x = i;
-                y = j;
-                found = 1;
-                break;
-            }
-        }
-    }
-
-    if (!found)
-        return;
+    m.gridCells[hero.x][hero.y] = '.';
 
     switch (direction)
     {
     case 'a':
-        m.gridCells[x][y - 1] = '@';
+        m.gridCells[hero.x][hero.y - 1] = '@';
+        hero.y--;
         break;
     case 'w':
-        m.gridCells[x - 1][y] = '@';
+        m.gridCells[hero.x - 1][hero.y] = '@';
+        hero.x--;
         break;
     case 's':
-        m.gridCells[x + 1][y] = '@';
+        m.gridCells[hero.x + 1][hero.y] = '@';
+        hero.x++;
         break;
     case 'd':
-        m.gridCells[x][y + 1] = '@';
+        m.gridCells[hero.x][hero.y + 1] = '@';
+        hero.y++;
         break;
     }
-
-    m.gridCells[x][y] = '.';
 }
 
 int main()
 {
     readMap(&m);
+    findMap(&m, &hero, '@');
 
     do
     {
@@ -69,6 +52,4 @@ int main()
     } while (!ended());
 
     clearMap(&m);
-
-    return 0;
 }
