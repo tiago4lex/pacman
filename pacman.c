@@ -29,16 +29,16 @@ void moves(char direction)
 
     switch (direction)
     {
-    case 'a':
+    case LEFT:
         nextY--;
         break;
-    case 'w':
+    case UP:
         nextX--;
         break;
-    case 's':
+    case DOWN:
         nextX++;
         break;
-    case 'd':
+    case RIGHT:
         nextY++;
         break;
     }
@@ -56,7 +56,7 @@ void moves(char direction)
 int main()
 {
     readMap(&m);
-    findMap(&m, &hero, '@');
+    findMap(&m, &hero, HERO);
 
     do
     {

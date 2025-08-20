@@ -6,7 +6,7 @@ void navigateMap(MAP *m, int originX, int originY, int destX, int destY)
 {
     char character = m->gridCells[originX][originY];
     m->gridCells[destX][destY] = character;
-    m->gridCells[originX][originY] = '.';
+    m->gridCells[originX][originY] = EMPTY;
 }
 
 int isValid(MAP *m, int x, int y)
@@ -21,7 +21,7 @@ int isValid(MAP *m, int x, int y)
 
 int isEmpty(MAP *m, int x, int y)
 {
-    return m->gridCells[x][y] == '.';
+    return m->gridCells[x][y] == EMPTY;
 }
 
 void readMap(MAP *m)

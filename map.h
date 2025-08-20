@@ -1,3 +1,8 @@
+#define HERO '@'
+#define EMPTY '.'
+#define VERTICAL_WALL '|'
+#define HORIZONTAL_WALL '-'
+
 // Global variables for the map and its dimensions
 struct map
 {
