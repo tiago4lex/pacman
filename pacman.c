@@ -6,6 +6,28 @@
 MAP m;
 POSITION hero;
 
+void ghosts()
+{
+
+    MAP copy;
+    copiesMap(&copy, &m);
+
+    for (int i = 0; i < m.rows; i++)
+    {
+        for (int j = 0; j < m.columns; j++)
+        {
+            if (copy.gridCells[i][j] == GHOST)
+            {
+                if (isValid(&m, i, j + 1) && isEmpty(&m, i, j + 1))
+                {
+                    navigateMap(&m, i, j, i, j + 1);
+                }
+            }
+        }
+    }
+    clearMap(&copy);
+}
+
 int ended()
 {
     return 0;
@@ -42,10 +64,10 @@ void moves(char direction)
         nextY++;
         break;
     }
-    if(!isValid(&m, nextX, nextY))
+    if (!isValid(&m, nextX, nextY))
         return;
 
-    if(!isEmpty(&m, nextX, nextY))
+    if (!isEmpty(&m, nextX, nextY))
         return;
 
     navigateMap(&m, hero.x, hero.y, nextX, nextY);
@@ -65,6 +87,7 @@ int main()
         char commands;
         scanf(" %c", &commands);
         moves(commands);
+        ghosts();
 
     } while (!ended());
 

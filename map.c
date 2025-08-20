@@ -1,6 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "map.h"
+
+void copiesMap(MAP *dest, MAP *origin)
+{
+    dest->rows = origin->rows;
+    dest->columns = origin->columns;
+
+    allocsMap(dest);
+
+    for (int i = 0; i < origin->rows; i++)
+    {
+        strcpy(dest->gridCells[i], origin->gridCells[i]);
+    }
+}
 
 void navigateMap(MAP *m, int originX, int originY, int destX, int destY)
 {

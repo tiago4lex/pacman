@@ -1,4 +1,5 @@
 #define HERO '@'
+#define GHOST 'G'
 #define EMPTY '.'
 #define VERTICAL_WALL '|'
 #define HORIZONTAL_WALL '-'
@@ -30,3 +31,5 @@ void findMap(MAP *m, POSITION *p, char c);
 int isValid(MAP *m, int x, int y);
 int isEmpty(MAP *m, int x, int y);
 void navigateMap(MAP *m, int originX, int originY, int destX, int destY);
+
+void copiesMap(MAP *dest, MAP *origin);
