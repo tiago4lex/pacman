@@ -26,10 +26,11 @@ struct position
 };
 
 typedef struct position POSITION;
-void findMap(MAP *m, POSITION *p, char c);
+int findMap(MAP *m, POSITION *p, char c);
 
 int isValid(MAP *m, int x, int y);
 int isEmpty(MAP *m, int x, int y);
 void navigateMap(MAP *m, int originX, int originY, int destX, int destY);
 
 void copiesMap(MAP *dest, MAP *origin);
+int canMove(MAP* m, int x, int y);

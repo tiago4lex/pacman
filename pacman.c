@@ -20,8 +20,7 @@ int ghostMovement(int currentX, int currentY, int *destX, int *destY)
     {
         int position = rand() % 4;
 
-        if (isValid(&m, options[position][0], options[position][1]) &&
-            isEmpty(&m, options[position][0], options[position][1]))
+        if (canMove(&m, options[position][0], options[position][1]))
         {
             *destX = options[position][0];
             *destY = options[position][1];
@@ -64,7 +63,9 @@ void ghosts()
 
 int ended()
 {
-    return 0;
+    POSITION position;
+    int pacmanMap = findMap(&m, &position, HERO);
+    return  !pacmanMap;
 }
 
 int isValidDirection(char direction)
@@ -98,10 +99,7 @@ void moves(char direction)
         nextY++;
         break;
     }
-    if (!isValid(&m, nextX, nextY))
-        return;
-
-    if (!isEmpty(&m, nextX, nextY))
+    if (!canMove(&m, nextX, nextY))
         return;
 
     navigateMap(&m, hero.x, hero.y, nextX, nextY);

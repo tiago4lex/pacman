@@ -86,7 +86,7 @@ void printMap(MAP *m)
     }
 }
 
-void findMap(MAP *m, POSITION *p, char c)
+int findMap(MAP *m, POSITION *p, char c)
 {
     for (int i = 0; i < m->rows; i++)
     {
@@ -96,8 +96,15 @@ void findMap(MAP *m, POSITION *p, char c)
             {
                 p->x = i;
                 p->y = j;
-                return;
+                return 1;
             }
         }
     }
+    return 0;
+}
+
+int canMove(MAP *m, int x, int y)
+{
+    return isValid(m, x, y) &&
+           isEmpty(m, x, y);
 }
