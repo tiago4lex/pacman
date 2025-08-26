@@ -3,8 +3,8 @@
 #define LEFT 'a'
 #define RIGHT 'd'
 
-void moves(char direction);
 int ended();
+void moves(char direction);
+
 int isValidDirection(char direction);
 void ghosts();
-int ghostMovement(int currentX, int currentY, int *destX, int *destY);

@@ -3,45 +3,10 @@
 #include <string.h>
 #include "map.h"
 
-void copiesMap(MAP *dest, MAP *origin)
-{
-    dest->rows = origin->rows;
-    dest->columns = origin->columns;
-
-    allocsMap(dest);
-
-    for (int i = 0; i < origin->rows; i++)
-    {
-        strcpy(dest->gridCells[i], origin->gridCells[i]);
-    }
-}
-
-void navigateMap(MAP *m, int originX, int originY, int destX, int destY)
-{
-    char character = m->gridCells[originX][originY];
-    m->gridCells[destX][destY] = character;
-    m->gridCells[originX][originY] = EMPTY;
-}
-
-int isValid(MAP *m, int x, int y)
-{
-    if (x >= m->rows)
-        return 0;
-    if (y >= m->columns)
-        return 0;
-
-    return 1;
-}
-
-int isEmpty(MAP *m, int x, int y)
-{
-    return m->gridCells[x][y] == EMPTY;
-}
-
 void readMap(MAP *m)
 {
-    FILE *f = fopen("map.txt", "r");
-
+    FILE *f;
+    f = fopen("map.txt", "r");
     if (f == 0)
     {
         printf("The map.txt file was not found\n");
@@ -49,7 +14,6 @@ void readMap(MAP *m)
     }
 
     fscanf(f, "%d %d", &(m->rows), &(m->columns));
-
     allocsMap(m);
 
     for (int i = 0; i < m->rows; i++)
@@ -66,6 +30,19 @@ void allocsMap(MAP *m)
     for (int i = 0; i < m->rows; i++)
     {
         m->gridCells[i] = malloc(sizeof(char) * (m->columns + 1)); // +1 para '\0'
+    }
+}
+
+void copiesMap(MAP *dest, MAP *origin)
+{
+    dest->rows = origin->rows;
+    dest->columns = origin->columns;
+
+    allocsMap(dest);
+
+    for (int i = 0; i < origin->rows; i++)
+    {
+        strcpy(dest->gridCells[i], origin->gridCells[i]);
     }
 }
 
@@ -103,8 +80,37 @@ int findMap(MAP *m, POSITION *p, char c)
     return 0;
 }
 
-int canMove(MAP *m, int x, int y)
+int canMove(MAP *m, char hero, int x, int y)
 {
     return isValid(m, x, y) &&
-           isEmpty(m, x, y);
+           !walls(m, x, y) &&
+           !isHero(m, hero, x, y);
+}
+
+int isValid(MAP *m, int x, int y)
+{
+    if (x >= m->rows)
+        return 0;
+    if (y >= m->columns)
+        return 0;
+
+    return 1;
+}
+
+int isHero(MAP *m, char hero, int x, int y)
+{
+    return m->gridCells[x][y] == hero;
+}
+
+int walls(MAP *m, int x, int y)
+{
+    return m->gridCells[x][y] == VERTICAL_WALL ||
+           m->gridCells[x][y] == HORIZONTAL_WALL;
+}
+
+void navigateMap(MAP *m, int originX, int originY, int destX, int destY)
+{
+    char character = m->gridCells[originX][originY];
+    m->gridCells[destX][destY] = character;
+    m->gridCells[originX][originY] = EMPTY;
 }
