@@ -1,10 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "pacman.h"
 #include "map.h"
 
 MAP m;
 POSITION hero;
+
+int ghostMovement(int currentX, int currentY, int *destX, int *destY)
+{
+    int options[4][2] = {
+        {currentX, currentY + 1},
+        {currentX, currentY - 1},
+        {currentX + 1, currentY},
+        {currentX - 1, currentY}};
+
+    srand(time(0));
+    for (int i = 0; i < 10; i++)
+    {
+        int position = rand() % 4;
+
+        if (isValid(&m, options[position][0], options[position][1]) &&
+            isEmpty(&m, options[position][0], options[position][1]))
+        {
+            *destX = options[position][0];
+            *destY = options[position][1];
+            return 1;
+        }
+    }
+    return 0;
+}
 
 void ghosts()
 {
@@ -18,6 +43,15 @@ void ghosts()
         {
             if (copy.gridCells[i][j] == GHOST)
             {
+                int destX;
+                int destY;
+
+                int moved = ghostMovement(i, j, &destX, &destY);
+                if (moved)
+                {
+                    navigateMap(&m, i, j, destX, destY);
+                }
+
                 if (isValid(&m, i, j + 1) && isEmpty(&m, i, j + 1))
                 {
                     navigateMap(&m, i, j, i, j + 1);
